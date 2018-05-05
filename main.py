@@ -1,6 +1,7 @@
 import librosa
 import librosa.display
 import numpy as np
+from mpl_toolkits import mplot3d
 y1, sr1 = librosa.load("healthy1s1.mp3")
 D1 = librosa.stft(y1, hop_length=128)
 y2, sr2 = librosa.load("healthy1s2.mp3")
@@ -248,5 +249,18 @@ plt.subplot(4, 1, 4)
 librosa.display.specshow(librosa.amplitude_to_db(D4, ref=np.max), y_axis='log')
 plt.colorbar(format='%+2.0f dB')
 plt.title('Full power spectrogram')
+
+plt.figure()
+ax = plt.axes(projection='3d')
+
+x, y, z = [], [], []
+
+for i, a in enumerate(D4) :
+    for j, b in enumerate(a):
+        x.append(i)
+        y.append(j)
+        z.append(abs(b))
+
+ax.scatter3D(x, y, z)
 
 plt.show()
