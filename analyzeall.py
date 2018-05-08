@@ -7,12 +7,16 @@ from numpy import linalg as LA
 from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 
-f = open('za.out', 'w')
+count = 0
+
 def analyze(args) : 
     plt.figure()
+    global count
+    
+    count+=1
     for j, (data, name) in enumerate(args):
         data = np.abs(data)
-
+        f = open('za{}.out'.format(name[:-4]), 'w')
         f.write(name + "\n")
 
         for g in range(len(data[0])) : 
@@ -20,6 +24,7 @@ def analyze(args) :
                 f.write("{} ".format(str(data[k][g]), name))
             f.write("\n")
         
+        f.close()
 
         #data = data/LA.norm(data, np.inf)
 
@@ -29,11 +34,15 @@ def analyze(args) :
 
         # print(args)
 
+        for i in range(0, 24) : 
+            data[i] = 0
+
         plt.subplot(len(args), 1, j+1)
-        # librosa.display.specshow(librosa.amplitude_to_db(data, ref=np.max), y_axis='log')
-        # plt.colorbar(format='%+2.0f dB')
-        plt.plot(data)
+        librosa.display.specshow(librosa.amplitude_to_db(data, ref=np.max), y_axis='log')
+        plt.colorbar(format='%+2.0f dB')
+        # plt.plot(data)
         plt.title(name)
+    
         
 
 
@@ -51,4 +60,3 @@ for i, filename in enumerate(glob.iglob('*s?.mp3')):
         analyze(data)
         data = []
 plt.show()
-f.close()
