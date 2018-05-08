@@ -22,7 +22,7 @@ def analyze(args) :
         for g in range(len(data[0])) : 
             for k in range(len(data)) :
                 f.write("{} ".format(str(data[k][g]), name))
-            f.write("\n")
+            f.write("QW\n")
         
         f.close()
 
